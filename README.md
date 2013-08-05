@@ -22,7 +22,7 @@ bottom of the `config/boot.rb` file.
 
 Then just simply call the `::update!` method.
 
-`Enfig.update! :env => ENV['RAILS_ENV'], :file => File.join('config', 'my_project.yml')
+`Enfig.update! :env => ENV['RAILS_ENV'], :file => File.join('config', 'my_project.yml')`
 
 ## Options
 
@@ -60,4 +60,5 @@ Will set the following ENV values.
     ENV['DATABASE_ADAPTER'] = 'postgresql'
     ENV['DATABASE_USERNAME'] = 'prod_user'
 
-As you can see from the example `Enfig` will **ignore the environment key name**.
+As you can see from the example `Enfig` will **ignore the environment key name**. The
+first segment of the key is the filename (i.e. `DATABASE` because of `database.yml`)
