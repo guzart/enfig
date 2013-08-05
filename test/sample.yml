@@ -5,5 +5,4 @@ development:
 
 production:
   hello: Bonjour
-  s3:
-    key: 54321gfedcba
+
