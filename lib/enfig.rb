@@ -35,7 +35,7 @@ class Enfig
 
   def update_env!
     load_env_hash(config).each do |k, v|
-      ENV[k] = v if ENV[k].nil? || ENV[k] == '' || overwrite?
+      ENV[k] = v.to_s if ENV[k].nil? || ENV[k] == '' || overwrite?
     end
   end
 
