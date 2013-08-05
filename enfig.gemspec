@@ -7,6 +7,6 @@ Gem::Specification.new do |s|
   s.authors     = ["Arturo Guzman"]
   s.email       = 'arturo@kisurfer.com'
   s.files       = ["lib/enfig.rb"]
-  s.homepage    = 'http://rubygems.org/gems/enfig'
+  s.homepage    = 'http://github.com/guzart/enfig'
   s.license     = 'MIT'
 end
