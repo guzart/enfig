@@ -38,6 +38,20 @@ class EnfigTest < Test::Unit::TestCase
     assert_equal 'Hola', ENV['SAMPLE_HELLO']
   end
 
+  def test_does_not_overwrite_env_variables_if_overwrite_is_false
+    ENV['SAMPLE_HELLO'] = 'booya'
+    enfig = Enfig.new(:file => 'test/sample.yml', :overwrite => false)
+    enfig.update_env!
+    assert_equal 'booya', ENV['SAMPLE_HELLO']
+  end
+
+  def test_overwrite_env_variables_if_overwrite_is_true
+    ENV['SAMPLE_HELLO'] = 'booya'
+    enfig = Enfig.new(:file => 'test/sample.yml', :overwrite => true)
+    enfig.update_env!
+    assert_equal 'Hola', ENV['SAMPLE_HELLO']
+  end
+
   def test_updated_env_variables_from_nested_config
     enfig = Enfig.new(:file => 'test/sample.yml')
     enfig.update_env!

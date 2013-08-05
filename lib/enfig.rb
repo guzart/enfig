@@ -8,10 +8,10 @@ class Enfig
 
   def initialize(args = {})
     @config           = nil
-    @env              = args[:env]  || 'development'
-    @root             = args[:root] || '.'
-    @files            = args[:files] || [args[:file]].compact
-    @enable_overwrite = args[:overwrite]
+    @env              = args[:env]        || 'development'
+    @root             = args[:root]       || '.'
+    @files            = args[:files]      || [args[:file]].compact
+    @enable_overwrite = args[:overwrite] == false ? false : true
   end
 
   def config
@@ -35,7 +35,7 @@ class Enfig
 
   def update_env!
     load_env_hash(config).each do |k, v|
-      ENV[k] = v
+      ENV[k] = v if ENV[k].nil? || ENV[k] == '' || overwrite?
     end
   end
 
