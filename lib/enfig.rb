@@ -39,6 +39,12 @@ class Enfig
     end
   end
 
+  def self.update!(args = {})
+    enfig = Enfig.new(args)
+    enfig.update_env!
+    enfig
+  end
+
   private
 
     def load_yaml(*args)

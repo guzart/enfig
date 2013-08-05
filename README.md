@@ -1,4 +1,5 @@
 enfig
 =====
 
-Sets ENV values from a YAML file
+Sets ENV values from a YAML file.
+
