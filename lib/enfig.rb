@@ -26,8 +26,8 @@ class Enfig
     conf = {}
 
     files.each do |file|
-      name = File.basename(file, '.yml').to_s.downcase.to_sym
-      conf[name] = load_yaml(file)
+      name = File.basename(file, '.yml').to_s.downcase.gsub(/[^a-z0-9_]/i, '_')
+      conf[name.to_sym] = load_yaml(file)
     end
 
     conf
