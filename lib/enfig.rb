@@ -9,7 +9,7 @@ class Enfig
   def initialize(args = {})
     @config           = nil
     @env              = args[:env]        || 'development'
-    @root             = args[:root]       || '.'
+    @root             = args[:root]       || ''
     @files            = args[:files]      || [args[:file]].compact
     @enable_overwrite = args[:overwrite] == false ? false : true
   end
