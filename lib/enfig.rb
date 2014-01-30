@@ -8,7 +8,7 @@ class Enfig
 
   def initialize(args = {})
     @config           = nil
-    @env              = args[:env]        || 'development'
+    @env              = args[:env]
     @root             = args[:root]       || ''
     @files            = args[:files]      || [args[:file]].compact
     @enable_overwrite = args[:overwrite] == false ? false : true
@@ -49,7 +49,8 @@ class Enfig
 
     def load_yaml(*args)
       config = YAML.load_file(File.join(root, *args))
-      symbolize_keys(config[env])
+      data   = env.nil? ? config : config[env]
+      symbolize_keys(data)
     end
 
     def load_env_hash(config_src, target = {}, prefix = nil)

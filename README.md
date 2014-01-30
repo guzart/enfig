@@ -26,7 +26,7 @@ Then just simply call the `::update!` method, anywhere in your application,
 
 The `::update!` and `#initialize` methods take a hash with the following keys:
 
-* **:env** => String -- The environment name
+* **:env** => String -- The environment name, OPTIONAL
 * **:root** => String -- The root path
 * **:files** => Array -- The array of YAML files to load, relative to the `:root` path
 * **:file** => String -- A single YAML file to load, relative to the `:root` path. This option
@@ -60,3 +60,5 @@ Will set the following ENV values.
 
 As you can see from the example `Enfig` will **ignore the environment key name**. The
 first segment of the key is the filename (i.e. `DATABASE` because of `database.yml`)
+
+If you ommit the environment, then Enfig will load all the keys in the file.
