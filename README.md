@@ -17,21 +17,36 @@ Install the gem by adding it to  your `Gemfile`
 
 `gem 'enfig', '~> 1.0.0'`
 
-Then just simply call the `::load!` method, anywhere in your application,
-for Rails applications add it before project module in `config/application.rb` file.
+Then just simply call the `::load!` method, anywhere in your application.
 
-`Enfig.load! 'config/project.yml', overwrite: true`
+### Rails
+
+For Rails applications add the following snippet at the bottom of the `config/boot.rb` file.
+
+```ruby
+# config/boot.rb
+require 'enfig'
+Enfig.load! File.expand_path('../project.yml', __FILE__)
+```
+
+Replace `project.yml` with the name of your configuration file.
 
 ## API
 
 The `::load!` methods take the filename as the first parameter and an optional hash as a second
 parameter.
 
+`Enfig.load!(filename:String, [options:Hash])`
+
 ### Options
 
-**root** *[String]*  
+**root** *[String, Symbol]*  
 *Default: nil*  
 The key to consider as the root of the configuration values. This is useful when working with multiple environments.
+
+**prefix** *[String]*  
+*Default: nil*  
+The prefix for the environment keys.
 
 **separator** *[String]*  
 *Default: '_'*  
@@ -67,18 +82,17 @@ Indicates if the existing `ENV[]` values can be overwritten.
 ```
 
 ```ruby
-# config/application.rb
-
-# Load the environment variables before loading Rails
-Enfig.load! "#{Rails.root}/config/project.yml", env: 'production', separator: '_', overwrite: true
+Enfig.load! 'project.yml', root: :production, prefix: 'app', separator: '/', overwrite: true
 ```
 
 Will result in setting the following ENV values.
 
 ```ruby
-ENV['DATABASE_ADAPTER']  = 'postgresql'
-ENV['DATABASE_HOST']     = 'server.example.com'
-ENV['DATABASE_DATABASE'] = 'project_db'
-ENV['DATABASE_USERNAME'] = 'db_user'
-ENV['DATABASE_PASSWORD'] = 'seriouspassword'
+ENV['APP/DATABASE/ADAPTER']  = 'postgresql'
+ENV['APP/DATABASE/HOST']     = 'server.example.com'
+ENV['APP/DATABASE/DATABASE'] = 'project_db'
+ENV['APP/DATABASE/USERNAME'] = 'db_user'
+ENV['APP/DATABASE/PASSWORD'] = 'seriouspassword'
 ```
+
+*Note: How the configuration hash results in the keys being  prefixed with `APP` and joined with a '/' separator*
