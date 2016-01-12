@@ -1,64 +1,84 @@
 enfig
 =====
 
-Sets `ENV[]` values from a YAML file.
+Sets environment `ENV[]` values from a YAML file.
 
 ## Why?
 
 When a project starts growing so does it settings. After a while you end up with multiple
 YAML files, one for each component, and it becomes hard to manage.
 
-This gems let you group all your project settings into one YAML file inside your project
-folder. It then adds the settings to the ENV, so that you can use the `ENV[key]` in your code.
+This gem lets you group all of your project settings into one YAML file in your project.
+It then adds the settings to the ENV, so that you can use the `ENV[key]` in your code.
 
-## How?
+## Installation
 
 Install the gem by adding it to  your `Gemfile`
 
-`gem 'enfig', '~> 0.1.0'`
+`gem 'enfig', '~> 1.0.0'`
 
-Then just simply call the `::update!` method, anywhere in your application,
-(Rails applications add before project module in `config/application.rb` file).
+Then just simply call the `::load!` method, anywhere in your application,
+for Rails applications add it before project module in `config/application.rb` file.
 
-`Enfig.update! :env => ENV['RAILS_ENV'], :file => File.join('config', 'my_project.yml')`
+`Enfig.load! 'config/project.yml', overwrite: true`
 
-## Options
+## API
 
-The `::update!` and `#initialize` methods take a hash with the following keys:
+The `::load!` methods take the filename as the first parameter and an optional hash as a second
+parameter.
 
-* **:env** => String -- The environment name, OPTIONAL
-* **:root** => String -- The root path
-* **:files** => Array -- The array of YAML files to load, relative to the `:root` path
-* **:file** => String -- A single YAML file to load, relative to the `:root` path. This option
-  is ignored if the `:files` options is specified.
-* **:overwrite** => Boolean -- Indicates if the `ENV[]` values can be overwritten.
+### Options
+
+**root** *[String]*  
+*Default: nil*  
+The key to consider as the root of the configuration values. This is useful when working with multiple environments.
+
+**separator** *[String]*  
+*Default: '_'*  
+The separator to use when flattening the key of nested hashes.
+
+**overwrite** *[Boolean]*  
+*Default: false*  
+Indicates if the existing `ENV[]` values can be overwritten.
 
 ### Example
 
-Given the following file in `"#{Rails.root}/config/database.yml"`
+```YAML
+    # config/project.yml
 
-    development: &defaults
+    # Thanks to YAML you can reuse pieces of your configuration
+
+    database: &database
       adapter: postgresql
       host: localhost
-      database: dev_db
-      encoding: utf8
-      pool: 5
-      timeout: 5000
-      username: dev_user
+      database: project_db
+      username: db_user
       password: abcdefg123456
 
+    development:
+      database:
+        <<: *database
+
     production:
-      <<: *defaults
-      username: prod_user
+      database:
+        <<: *database
+        host: server.example.com
+        password: seriouspassword
+```
 
-`Enfig.update! :env => 'production', :root => 'config', :file => 'database.yml'`
+```ruby
+# config/application.rb
 
-Will set the following ENV values.
+# Load the environment variables before loading Rails
+Enfig.load! "#{Rails.root}/config/project.yml", env: 'production', separator: '_', overwrite: true
+```
 
-    ENV['DATABASE_ADAPTER'] = 'postgresql'
-    ENV['DATABASE_USERNAME'] = 'prod_user'
+Will result in setting the following ENV values.
 
-As you can see from the example `Enfig` will **ignore the environment key name**. The
-first segment of the key is the filename (i.e. `DATABASE` because of `database.yml`)
-
-If you ommit the environment, then Enfig will load all the keys in the file.
+```ruby
+ENV['DATABASE_ADAPTER']  = 'postgresql'
+ENV['DATABASE_HOST']     = 'server.example.com'
+ENV['DATABASE_DATABASE'] = 'project_db'
+ENV['DATABASE_USERNAME'] = 'db_user'
+ENV['DATABASE_PASSWORD'] = 'seriouspassword'
+```
