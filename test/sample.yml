@@ -1,8 +1,0 @@
-development:
-  hello: Hola
-  s3:
-    key: abcdefg12345
-
-production:
-  hello: Bonjour
-
