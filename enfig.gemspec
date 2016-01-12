@@ -1,12 +1,11 @@
 Gem::Specification.new do |s|
   s.name        = 'enfig'
-  s.version     = '0.3.0'
-  s.date        = '2013-08-05'
-  s.summary     = "ENV values for your project"
-  s.description = "Sets ENV values from a group of YAML files"
+  s.version     = '1.0.0'
+  s.license     = 'MIT'
+  s.summary     = "ENV values from a YAML file"
+  s.description = "Sets environment values ENV from a YAML file"
   s.authors     = ["Arturo Guzman"]
   s.email       = 'arturo@kisurfer.com'
   s.files       = ["lib/enfig.rb"]
   s.homepage    = 'http://github.com/guzart/enfig'
-  s.license     = 'MIT'
 end
