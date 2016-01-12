@@ -53,8 +53,14 @@ describe Enfig do
     end
 
     it 'flattens the nested hashes using the given separator' do
-      config = Enfig.flatten_config({ database: { username: 'enfig' } }, '/')
+      config = Enfig.flatten_config({ database: { username: 'enfig' } }, separator: '/')
       expect(config['database/username']).to eq 'enfig'
+    end
+
+    it 'adds a given prefix only to the first level keys' do
+      data = { database: { username: 'enfig' } }
+      config = Enfig.flatten_config(data, prefix: 'app')
+      expect(config['app_database_username']).to eq 'enfig'
     end
   end
 
