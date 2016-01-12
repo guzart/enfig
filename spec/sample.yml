@@ -1,0 +1,7 @@
+hello: World
+
+production:
+  hello: Bonjour
+
+my_env:
+  hello: Guten Morgen
