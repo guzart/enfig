@@ -19,7 +19,7 @@ class Enfig
     config.each do |key, value|
       env_key = key.to_s.upcase
       next if !overwrite && !ENV[env_key].nil?
-      ENV[env_key] = value
+      ENV[env_key] = value.to_s
     end
   end
 

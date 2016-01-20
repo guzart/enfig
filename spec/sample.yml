@@ -5,3 +5,5 @@ production:
 
 my_env:
   hello: Guten Morgen
+  my_nested_bool:
+    is_happy: true
